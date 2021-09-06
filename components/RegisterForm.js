@@ -6,20 +6,10 @@ import useSignUpForm from '../hooks/RegisterHooks';
 
 const RegisterForm = ({navigation}) => {
   const {handleInputChange} = useSignUpForm();
-  const doRegister = async () => {
-    const serverResponse = await register(inputs);
-    if (serverResponse) {
-      Alert.alert(serverResponse.message);
-    } else {
-      Alert.alert('register failed');
-    }
+
+  const doRegister = () => {
+    // TODO: add register() to useUser() hook in API hooks
   };
-
-  const {inputs, handleInputChange} = useSignUpForm(); // makes inputs and handleInput change visible from RegisterHooks.js
-
-  // const doRegister = () => {
-  //   // TODO: add register() to useUser() hook in API hooks
-  // };
 
   return (
     <View>
@@ -50,7 +40,7 @@ const RegisterForm = ({navigation}) => {
 };
 
 RegisterForm.propTypes = {
-  navigation: PropTypes.object.isRequired
+  navigation: PropTypes.object.isRequired,
 };
 
 export default RegisterForm;

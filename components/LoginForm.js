@@ -9,7 +9,7 @@ import {useLogin} from '../hooks/ApiHooks';
 
 const LoginForm = ({navigation}) => {
   const {inputs, handleInputChange} = useLoginForm();
-  const {setIsLoggedIn} = useContext(MainContext);
+  const {setIsLoggedIn, setUser} = useContext(MainContext);
   const {login} = useLogin();
 
   const doLogin = async () => {
@@ -18,6 +18,7 @@ const LoginForm = ({navigation}) => {
       console.log('doLogin response', loginInfo);
       await AsyncStorage.setItem('userToken', loginInfo.token);
       // TODO: Save user info (loginInfo.user) to MainContext
+      setUser(loginInfo.user);
       setIsLoggedIn(true);
     } catch (error) {
       console.log('doLogin error', error);
@@ -42,20 +43,10 @@ const LoginForm = ({navigation}) => {
       <Button title="Login!" onPress={doLogin} />
     </View>
   );
-  const doRegister = async () => {
-    const serverResponse = await register(inputs);
-    if (serverResponse) {
-      Alert.alert(serverResponse.message);
-    } else {
-      Alert.alert('register failed');
-    }
-  };
-
-  const {inputs, handleInputChange} = useSignUpForm(); // makes inputs and handleInput change visible from RegisterHooks.js
 };
 
 LoginForm.propTypes = {
-  navigation: PropTypes.object.isRequired
+  navigation: PropTypes.object.isRequired,
 };
 
 export default LoginForm;
