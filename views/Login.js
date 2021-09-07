@@ -13,7 +13,6 @@ import {Card} from 'react-native-elements';
 const Login = ({navigation}) => {
   const {setIsLoggedIn, setUser} = useContext(MainContext);
   const {checkToken} = useUser();
-  // console.log('Login isLoggedIn', isLoggedIn);
 
   const getToken = async () => {
     const userToken = await AsyncStorage.getItem('userToken');
