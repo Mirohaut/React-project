@@ -1,7 +1,6 @@
 import {useEffect, useState} from 'react';
 import {doFetch} from '../utils/http';
 import {baseUrl} from '../utils/variables';
-import {apiUrl} from '../utils/http';
 
 const useMedia = () => {
   const [mediaArray, setMediaArray] = useState([]);
@@ -44,7 +43,7 @@ const useLogin = () => {
       method: 'POST',
       // mode: 'no-cors',
       headers: {'Content-Type': 'application/json'},
-      body: userCredentials,
+      body: JSON.stringify(userCredentials),
     };
     try {
       const loginResponse = await doFetch(baseUrl + 'login', requestOptions);
@@ -70,29 +69,37 @@ const useUser = () => {
     }
   };
 
-  const register = async (inputs) => {
-    const fetchOptions = {
+  const register = async (userCredentials) => {
+    // https://media.mw.metropolia.fi/wbma/docs/#api-User-PostUser
+    const requestOptions = {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(inputs),
+      // mode: 'no-cors',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(userCredentials),
     };
     try {
-      const response = await fetch(apiUrl + 'users', fetchOptions);
-      const json = await response.json();
-      return json;
-    } catch (e) {
-      console.log('ApiHooks register', e.message);
-      return false;
+      const registerResponse = await doFetch(baseUrl + 'users', requestOptions);
+      return registerResponse;
+    } catch (error) {
+      console.log('register error', error.message);
     }
   };
-
-  // const register = async (token) => {
-  //   // https://media.mw.metropolia.fi/wbma/docs/#api-User-PostUser
-  // };
 
   return {checkToken, register};
 };
 
-export {useMedia, useLogin, useUser};
+const useTag = () => {
+  const getFilesByTag = async (tag) => {
+    try {
+      const tiedosto = await doFetch(baseUrl + 'tags/' + tag);
+      return tiedosto;
+    } catch (e) {
+      console.log('getFilesByTag', e.message);
+      return {};
+    }
+  };
+
+  return {getFilesByTag};
+};
+
+export {useMedia, useLogin, useUser, useTag};
