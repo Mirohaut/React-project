@@ -2,8 +2,8 @@ import React from 'react';
 import {StyleSheet, ActivityIndicator} from 'react-native';
 import PropTypes from 'prop-types';
 import {uploadsUrl} from '../utils/variables';
+import {DateTime} from 'luxon';
 import {Card, ListItem, Text} from 'react-native-elements';
-import {format} from 'date-fns';
 
 const Single = ({route}) => {
   const {params} = route;
@@ -11,7 +11,9 @@ const Single = ({route}) => {
     <Card>
       <Card.Title h4>{params.title}</Card.Title>
       <Card.Title>
-        <Text>{format(new Date(params.time_added), 'dd,mm,yyyy')}</Text>
+        {DateTime.fromISO(params.time_added)
+          .setLocale('fi')
+          .toLocaleString({month: 'long', day: 'numeric', year: 'numeric'})}
       </Card.Title>
       <Card.Divider />
       <Card.Image
