@@ -6,16 +6,12 @@ import PropTypes from 'prop-types';
 
 const List = ({navigation}) => {
   const {mediaArray} = useMedia();
-  // console.log('List: mediaArray', mediaArray);
+  console.log('List: mediaArray', mediaArray);
   return (
     <FlatList
-      data={mediaArray.reverse()}
+      data={mediaArray}
       renderItem={({item}) => (
-        <ListItem
-          singleMedia={item}
-          navigation={navigation}
-          showButtons={false}
-        />
+        <ListItem singleMedia={item} navigation={navigation} />
       )}
       keyExtractor={(item, index) => index.toString()}
     />

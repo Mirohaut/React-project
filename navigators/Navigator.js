@@ -10,9 +10,6 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Login from '../views/Login';
 import {MainContext} from '../contexts/MainContext';
 import {Icon} from 'react-native-elements';
-import Upload from '../views/Upload';
-import MyFiles from '../views/MyFiles';
-import Modify from '../views/Modify';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -30,9 +27,6 @@ const TabScreen = () => {
             case 'Profile':
               iconName = 'account-box';
               break;
-            case 'Upload':
-              iconName = 'account-box';
-              break;
           }
           return <Icon name={iconName} size={size} color={color} />;
         },
@@ -40,7 +34,6 @@ const TabScreen = () => {
     >
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Profile" component={Profile} />
-      <Tab.Screen name="Upload" component={Upload} />
     </Tab.Navigator>
   );
 };
@@ -59,8 +52,6 @@ const StackScreen = () => {
             }}
           />
           <Stack.Screen name="Single" component={Single} />
-          <Stack.Screen name="My Files" component={MyFiles} />
-          <Stack.Screen name="Modify" component={Modify} />
         </>
       ) : (
         <Stack.Screen name="Login" component={Login} />
