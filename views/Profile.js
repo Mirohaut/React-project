@@ -9,7 +9,7 @@ import {uploadsUrl} from '../utils/variables';
 import {Avatar} from 'react-native-elements/dist/avatar/Avatar';
 import {ScrollView} from 'react-native-gesture-handler';
 
-const Profile = (props) => {
+const Profile = ({navigation}) => {
   const {setIsLoggedIn, user} = useContext(MainContext);
   const [avatar, setAvatar] = useState('https://placekitten.com/400/400');
 
@@ -19,7 +19,9 @@ const Profile = (props) => {
     (async () => {
       const file = await getFilesByTag('avatar_' + user.user_id);
       console.log('file', file);
-      setAvatar(uploadsUrl + file.pop().filename);
+      if (file.length > 0) {
+        setAvatar(uploadsUrl + file.pop().filename);
+      }
     })();
   }, [user]);
 
@@ -45,6 +47,18 @@ const Profile = (props) => {
         <ListItem>
           <Avatar icon={{name: 'user', type: 'font-awesome', color: 'black'}} />
           <Text>{user.full_name}</Text>
+        </ListItem>
+        <ListItem
+          bottomDivider
+          onPress={() => {
+            navigation.navigate('My Files');
+          }}
+        >
+          <Avatar icon={{name: 'logout', color: 'black'}} />
+          <ListItem.Content>
+            <ListItem.Title>My Files</ListItem.Title>
+          </ListItem.Content>
+          <ListItem.Chevron />
         </ListItem>
         <ListItem bottomDivider onPress={logout}>
           <Avatar icon={{name: 'logout', color: 'black'}} />
