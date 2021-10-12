@@ -13,6 +13,8 @@ import {Icon} from 'react-native-elements';
 import Upload from '../views/Upload';
 import MyFiles from '../views/MyFiles';
 import Modify from '../views/Modify';
+import {Text} from 'react-native';
+// import {View, Text} from 'react-native';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -33,6 +35,9 @@ const TabScreen = () => {
             case 'Upload':
               iconName = 'account-box';
               break;
+            case 'Drinks':
+              iconName = 'visit';
+              break;
           }
           return <Icon name={iconName} size={size} color={color} />;
         },
@@ -41,6 +46,7 @@ const TabScreen = () => {
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Profile" component={Profile} />
       <Tab.Screen name="Upload" component={Upload} />
+      <Tab.Screen name="Drinks" component={Upload} />
     </Tab.Navigator>
   );
 };
@@ -72,7 +78,8 @@ const StackScreen = () => {
 const Navigator = () => {
   return (
     <NavigationContainer>
-      <StackScreen />
+      <Text>123</Text>
+      <StackScreen></StackScreen>
     </NavigationContainer>
   );
 };

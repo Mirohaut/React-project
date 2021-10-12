@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {StyleSheet, ActivityIndicator, Button} from 'react-native';
 import PropTypes from 'prop-types';
 import {uploadsUrl} from '../utils/variables';
-import {DateTime} from 'luxon';
+// import {DateTime} from 'luxon';
 import {Card, ListItem, Text} from 'react-native-elements';
 import {Video, Audio} from 'expo-av';
 import {useUser} from '../hooks/ApiHooks';
@@ -21,6 +21,9 @@ const Single = ({route}) => {
     setOwnerInfo(await getUserInfo(params.user_id, token));
   };
   const getLikes = async () => {
+    const token = await AsyncStorage.getItem('userToken');
+    setIAmLikingIt(await setLikes(params.user_id, token));
+    setIAmLikingIt(setLikes + 1);
     // TODO: use api hooks to get favourites
     // setLikes()
     // set the value of iAmLikingIt
@@ -79,8 +82,8 @@ const Single = ({route}) => {
         {iAmLikingIt ? (
           <Button
             title="Like"
-            onPress={() => {
-              // use api hooks to POST a favourite
+            onPress={(setLikes) => {
+              likes.length++; // (likes) => likes.length + 1; // use api hooks to POST a favourite
             }}
           />
         ) : (

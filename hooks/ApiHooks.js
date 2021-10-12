@@ -227,7 +227,20 @@ const useTag = () => {
 
 const useFavourites = () => {
   const addFavourite = async (fileId, token) => {
-    // post /favourites
+    const requestOptions = {
+      method: 'POST',
+      headers: {'x-access-token': token, 'Content-type': 'application/json'},
+      body: JSON.stringify({
+        file_id: fileId,
+      }),
+    };
+    try {
+      const response = await doFetch(baseUrl + 'favourites', requestOptions);
+      console.log('virhe' + requestOptions.body);
+      return response;
+    } catch (error) {
+      console.log('virhe', error.message);
+    }
   };
 
   const deleteFavourite = async (fileId, token) => {

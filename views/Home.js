@@ -8,6 +8,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import List from '../components/List';
+// import {MateerialIcons} from '@expo/vector-icons';
 
 const Home = ({navigation}) => {
   return (
@@ -28,6 +29,19 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#ccc',
     paddingTop: Platform.OS === 'android' ? 25 : 0,
+  },
+  header: {
+    width: '50%',
+    height: '50%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  headerText: {
+    fontWeight: 'bold',
+    fontSize: 20,
+    color: '#333',
+    letterSpacing: 1,
   },
 });
 
