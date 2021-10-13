@@ -5,16 +5,18 @@ import {uploadsUrl} from '../utils/variables';
 // import {DateTime} from 'luxon';
 import {Card, ListItem, Text} from 'react-native-elements';
 import {Video, Audio} from 'expo-av';
-import {useUser} from '../hooks/ApiHooks';
+import {useUser, useFavourites} from '../hooks/ApiHooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Single = ({route}) => {
   const {params} = route;
+  const [updateLikes, setUpdateLikes] = useState(0);
   const {getUserInfo} = useUser();
   const [ownerInfo, setOwnerInfo] = useState({username: ''});
   const [likes, setLikes] = useState([]);
-  const [iAmLikingIt, setIAmLikingIt] = useState(false);
+  const [iAmLikingIt, setIAmLikingIt] = useState(true);
   const videoRef = useRef(null);
+  const {addFavourite, getFavouritesByFileId} = useFavourites();
 
   const getOwnerInfo = async () => {
     const token = await AsyncStorage.getItem('userToken');
@@ -22,18 +24,25 @@ const Single = ({route}) => {
   };
   const getLikes = async () => {
     const token = await AsyncStorage.getItem('userToken');
-    setIAmLikingIt(await setLikes(params.user_id, token));
-    setIAmLikingIt(setLikes + 1);
-    // TODO: use api hooks to get favourites
+    const result = await getFavouritesByFileId(params.file_id, token);
+    console.log('getlikes', result.length); // näyttää tykkäykset
+    setLikes(likes.length);
+    console.log('userID', result[0].user_id, ownerInfo.user_id); // Näkyykö buttoni// TODO: use api hooks to get favourites
     // setLikes()
     // set the value of iAmLikingIt
   };
-
+  const likeThis = async () => {
+    const token = await AsyncStorage.getItem('userToken');
+    const result = await addFavourite(params.file_id, token);
+    console.log('result', result);
+    setUpdateLikes(updateLikes + 1);
+  };
   useEffect(() => {
     getOwnerInfo();
-    getLikes();
   }, []);
-
+  useEffect(() => {
+    getLikes();
+  }, [updateLikes]);
   return (
     <Card>
       <Card.Title h4>{params.title}</Card.Title>
@@ -80,12 +89,7 @@ const Single = ({route}) => {
         {/* TODO: show like or dislike button depending on the current like status,
         calculate like count for a file */}
         {iAmLikingIt ? (
-          <Button
-            title="Like"
-            onPress={(setLikes) => {
-              likes.length++; // (likes) => likes.length + 1; // use api hooks to POST a favourite
-            }}
-          />
+          <Button title="Like" onPress={likeThis} />
         ) : (
           <Button
             title="Unlike"
